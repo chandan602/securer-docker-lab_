@@ -1,0 +1,25 @@
+version: "3.8"
+
+services:
+  mysql_db:
+    build: ./mysql
+    container_name: mysql_db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: testdb
+    ports:
+      - "3306:3306"
+    networks:
+      - mynet
+
+  java_app:
+    build: ./app
+    container_name: java_app
+    depends_on:
+      - mysql_db
+    networks:
+      - mynet
+
+networks:
+  mynet:
+    driver: bridge
